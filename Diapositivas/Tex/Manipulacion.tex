@@ -1,0 +1,18 @@
+
+\begin{frame}\frametitle{Posición y Orientación}
+  Un cuerpo rígido en el espacio puede tener una posición $(x,y,z)$ y una orientación. La orientación se puede representar de varias formas:
+  \begin{itemize}
+  \item Mediante ángulos de Euler: roll, pich y yaw $RPY = (\psi, \theta, \phi)$
+  \item Mediante cuaterniones
+  \item Mediante una matriz de rotación $R \in SO(3)$
+  \end{itemize}
+  Los ángulos $RPY$ son rotaciones intrínsecas sobre los ejes $X$, $Y$, y $Z$ respectivamente. Se llaman intrínsecas porque son rotaciones que ocurren sobre un sistema de referencia \textit{atado} a un cuerpo rígido.\\
+  Cualquier orientación se puede obtener mediante la composición de tres rotaciones básicas:
+  \[R = R_{z,\phi}R_{y,\theta}R_{x,\psi}\]
+  Es decir, primero una rotación de $\phi$ radianes sobre el eje $Z$, seguida de una rotación de $\theta$ radianes sobre el eje $Y$ del sistema resultante y una rotación de $\psi$ radianes sobre el eje $X$ del sistema rotado. 
+\end{frame}
+
+\begin{frame}\frametitle{Transformaciones Homogéneas}
+  Una Transformación Homogénea es una matriz de la forma
+  Propiedades de cancelación de índices. 
+\end{frame}

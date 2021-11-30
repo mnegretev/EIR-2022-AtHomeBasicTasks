@@ -1,0 +1,40 @@
+\section{Conceptos Básicos}
+
+\begin{frame}\frametitle{Funciones comunes}
+  \textbf{Sigmoide}: Es una función que puede ser usada como una versión \textit{suave} del escalón. Se usará en en control de posición y en el entrenamiento de redes neuronales.
+  \[\sigma(x) = \frac{1}{1 + e^{-x}}\]
+  La derivada tiene la forma:
+  \[\frac{d\sigma}{dx}=\frac{-(-e^{-x})}{\left(1 + e^{-x}\right)^2} = \frac{1 + e^{-x} - 1}{\left(1 + e^{-x}\right)^2}=\frac{1}{1+e^{-x}}\left(1 - \frac{1}{1 + e^{-x}}\right) = \sigma(x)(1 - \sigma(x))\]
+  \textbf{Campana de Gauss}: Es una función siempre positiva que tiende a cero cuando $|x|\rightarrow \infty$:
+  \[f(x) = a \cdot e^{-\frac{(x - b)^2}{2c^2}}\]
+\end{frame}
+
+\begin{frame}\frametitle{Gradiente}
+  Dada una función $f:\mathbb{R}^n \rightarrow \mathbb{R}$, es decir, una función escalar de variable vectorial $f(x_1, x_2, \dots, x_n)$, el gradiente $\nabla f(\bar{x})$ está dado por:
+  \[\nabla f(\bar{x}) = \left[ \frac{\partial f}{\partial x_1}, \frac{\partial f}{\partial x_2}, \dots \frac{\partial f}{\partial x_n}\right]^T\]
+
+  \begin{itemize}
+  \item El gradiente generaliza el concepto de derivada para funciones de varias variables.
+  \item El gradiente evaluado en un punto $\bar{x}_0$ indica la dirección de máximo cambio en ese punto.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Jacobiano}
+  Dada una función $F:\mathbb{R}^n \rightarrow \mathbb{R}^m$, es decir, una función vectorial de variable vectorial:
+  \[F(\bar{x}) = \begin{tabular}{l}$f_1(x_1, x_2, ..., x_n)$\\$f_2(x_1, x_2, ..., x_n)$\\ $\vdots$ \\ $f_n(x_1, x_2, ..., x_n)$\end{tabular}\]
+  El Jacobiano es una matriz que contiene las primeras derivadas parciales:
+  \[J(x) = \left[\begin{tabular}{cccc}
+      $\dfrac{\partial f_1}{\partial x_1}$ & $\dfrac{\partial f_1}{\partial x_2}$ & $\dots$ & $\dfrac{\partial f_1}{\partial x_n}$\\
+      & & &\\
+      $\dfrac{\partial f_2}{\partial x_1}$ & $\dfrac{\partial f_2}{\partial x_2}$ & $\dots$ & $\dfrac{\partial f_2}{\partial x_n}$\\
+      & $\vdots$ & & \\
+      $\dfrac{\partial f_m}{\partial x_1}$ & $\dfrac{\partial f_m}{\partial x_2}$ & $\dots$ & $\dfrac{\partial f_m}{\partial x_n}$\\
+    \end{tabular}\right] = \left[\begin{tabular}{c}$\nabla^T f_1$\\ $\nabla^T f_2$ \\ $\vdots$ \\ $\nabla^T f_m$\end{tabular}\right]\in\mathbb{R}^{m\times n}\]
+\end{frame}
+
+\begin{frame}\frametitle{Espacio de Configuraciones}
+  La \textit{configuración} de un robot (o de una parte de él) es una descripción de todos los puntos que ocupa en el espacio. Los \textit{grados de libertad} son el conjunto mínimo de valores independientes que se requieren para definir una configuración.
+  \[\]
+  La configuración de un cuerpo rígido que se mueve en el espacio tiene 6 grados de libertad (tres para posición y tres para orientación): $(x,y,z,\psi,\theta,\phi)$. Si el cuerpo se mueve sólo en el plano, tiene 3 grados: $(x,y,\theta)$ (una posición en 2D y una orientación).
+\end{frame}
+
