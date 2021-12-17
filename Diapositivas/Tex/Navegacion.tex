@@ -40,7 +40,7 @@
   \begin{itemize}
   \item Basados en búsqueda en grafos (A*, Dijkstra)
     \begin{itemize}
-    \item En un mapa de celdas de ocupación, cada celda es un nodo del grafo.
+    \item En un mapa de celdas de ocupación, cada celda libre es un nodo del grafo.
     \item Cada nodo está conectado con las celdas vecinas del espacio libre. 
     \end{itemize}
   \item Basados en muestreo (RRT)
@@ -54,22 +54,27 @@
     \DontPrintSemicolon
     \KwData {Mapa $M$ de celdas de ocupación, configuración inicial $q_{start}$, configuración meta $q_{goal}$}
     \KwResult{Ruta $P=[q_{start},q_1, q_2, \dots , q_{goal}]$}
+    \;
     Obtener los nodos $n_s$ y $n_g$ correspondientes a $q_{start}$ y $q_{goal}$\;
     Lista abierta $OL = \emptyset$ y lista cerrada $CL = \emptyset$\;
     \ForAll{Nodo $n \in M$}
     {
-      $g(n) = \infty$\;
-      $f(n) = \infty$\;
+      $g(n) = \infty \qquad f(n) = \infty$\;
     }
     Agregar $n_s$ a $OL$\;
-    $g(n_s) = 0$\\
-    $f(n_s) = 0$\\
+    $g(n_s) = 0 \qquad f(n_s) = 0$\;
     Nodo actual $n_c = n_s$\;
     \While{$OL\neq \emptyset$ y $n_c\neq n_g$}
     {
-      Seleccionar de $OL$ el nodo $n_c$ con el menor valor $f$\;
-      Agregar $n_c$ a $CL$\;
-      Expandir $n_c$\;
+      Seleccionar de $OL$ el nodo $n_c$ con el menor valor $f$ y agregar $n_c$ a $CL$\;
+      \ForAll{Vecino $n$ de $n_c$}
+      {
+        Calcular los valores $g$ y $h$ para el nodo $n$\;
+        \If{$g < g(n)$}
+        {
+          $g(n) = g\qquad f(n) = g + h \qquad Previo(n) = n_c$
+        }
+      }
       Agregar a $OL$ los vecinos de $n_c$ que no estén ya en $OL$ ni en $CL$\;
     }
     \If{$n_c\neq n_g$}{Anunciar Falla}
@@ -77,6 +82,20 @@
   \end{algorithm}
 \end{frame}
 
+\begin{frame}\frametitle{El algoritmo A*}
+  El valor $g$ es una función de costo y el algoritmo A* siempre devolverá la ruta que minimice el costo total del nodo inicial al nodo meta. Las funciones más comunes son:
+  \begin{itemize}
+  \item Distancia de Manhattan: $d(p_1, p_2) = |p_{1_x} - p_{2_x}| + |p_{1_y} - p_{2_y}|$
+  \item Distancia Euclidiana: $d(p_1, p_2) = \left( (p_{1_x} - p_{2_x})^2 + (p_{1_y} - p_{2_y})^2 \right)^{1/2}$
+  \end{itemize}
+  En la función $g$ se puede incluir cualquier criterio para planear una ruta: la más corta, la más rápida, la más segura, etc.\\
+  La heurística $h$ sirve para expandir menos nodos y es una función que debe \textit{subestimar} el costo real de llegar de un nodo $n$ al nodo meta $n_g$. La distancia Euclidiana y la distancia de Manhattan son dos funciones también muy usadas como heurísticas. 
+\end{frame}
+
 \begin{frame}[containsverbatim]\frametitle{Ejercicio}
+  Modificar el archivo a\_star.py para cambiar $g$ y $h$ de Manhattan a Euclidiana.
+  \texttt{catkin\_ws/src/config\_files/maps/appartment.pgm}
     \lstinputlisting[language=Python]{Codes/AStar.py}
 \end{frame}
+
+
