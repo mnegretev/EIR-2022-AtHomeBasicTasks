@@ -1,4 +1,5 @@
 
+\section{Manipulación}
 \begin{frame}\frametitle{Posición y Orientación}
   Un cuerpo rígido en el espacio puede tener una posición $(x,y,z)$ y una orientación. La orientación se puede representar de varias formas:
   \begin{itemize}
@@ -14,5 +15,108 @@
 
 \begin{frame}\frametitle{Transformaciones Homogéneas}
   Una Transformación Homogénea es una matriz de la forma
-  Propiedades de cancelación de índices. 
+  \[T = \left[\begin{tabular}{cccc}
+      & & & $d_x$\\
+      & $R\in SO(3)$ & & $d_y$\\
+      & & & $d_z$\\
+      0 & 0& 0 & 1
+    \end{tabular}\right]\]
+  Puede servir para
+  \begin{itemize}
+  \item Representar la posición y orientación de un cuerpo rígido
+  \item Representar una transformación de coordenadas $T_{ab}$ de un sistema de referencia $b$ a un sistema $a$
+  \end{itemize}
+  Propiedades:
+  \begin{itemize}
+  \item Asociatividad: $(T_1 T_2) T_3 = T_1 (T_2 T_3)$
+  \item Inversa:
+    \[T = \left[\begin{tabular}{cc}
+       $R^T$ & $-R^T d$\\
+       0 & 1
+      \end{tabular}\right]\]
+  \item Cancelación de índices: $T_{ab} = T_{ac}T_{cb}$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{El árbol cinemático}
+  Es útil tener una descripción de la forma en que están conectadas las diferentes articulaciones del robot. Se considera que sobre cada articulación hay un sistema de referencia (\textit{frame}) que está trasladado y rotado con respecto al sistema anterior.
+  \begin{multicols}{3}
+    \includegraphics[width=0.26\textwidth]{Figures/KinematicTree.png}\\
+    \footnotesize
+    El sistema \textit{absoluto} se suele llamar \texttt{map}\\
+    El sistema base del robot se suele llamar \textit{base\_link}\\
+    Las transformaciones de \texttt{map} a \texttt{base\_link} las determina el sistema de localización\\
+    El resto de las transformaciones se determinan con la posición de cada articulación\\
+    El árbol cinemático se traduce en una cadena de mulplicaciones de Transformaciones Homogéneas. 
+    \includegraphics[width=0.35\textwidth]{Figures/TfTree.pdf}
+  \end{multicols}
+\end{frame}
+
+\begin{frame}[containsverbatim]\frametitle{El formato URDF}
+  El formato URDF permite describir el arbol cinemático del robot mediante etiquetas XML:
+  \footnotesize
+  \lstinputlisting[language=XML]{Codes/URDFExample.xml}
+  \normalsize
+  Cada etiqueta \texttt{<joint>} representará una Transformación Homogénea. 
+\end{frame}
+
+\begin{frame}[containsverbatim]\frametitle{El formato Xacro}
+  El formato Xacro es un lenguaje de \textit{macros} que permite obtener archivos XML más cortos. Es últil para especificar parámetros físicos en el URDF como inercias y volúmenes:
+  \footnotesize
+  \lstinputlisting[language=XML]{Codes/XacroExample.xml}
+\end{frame}
+
+\begin{frame}[containsverbatim]\frametitle{Ejercicio}
+  Abra el archivo \texttt{catkin\_ws/src/hardware/justina\_description/urdf/justina\_base.xacro} y vaya a la línea 228:
+  \lstinputlisting[language=XML,firstnumber=227]{Codes/JustinaXacro.xml}
+  Modifique el atributo \texttt{xyz} y aumente 1 m en la coordenada en z. Después ejecute el comando:
+  \begin{lstlisting}
+    roslaunch bring_up path_planning.launch
+  \end{lstlisting}
+  Detenga la simulación. Ahora modifique el atributo \texttt{rpy}, cambie los valores a ``1.5708 0 0'' y ejecute de nuevo la simulación. 
+\end{frame}
+
+\begin{frame}\frametitle{La cinemática directa}
+  La cinemática directa consiste en determinar la posición y orientación del efector final del manipulador a partir de la posición de cada articulación.  Esta se puede calcular con la ecuación:
+  \[P_1 = T_{12}T_{23}T_{34}T_{45}T_{56}T_{67}T_{7g}P_g\]
+  donde $P_g = [0,0,0,1]^T$ es la posición del gripper con respecto al sistema del gripper, $P_1$ es la posición del gripper con respecto al sistema base y $T_{ab}$ es la transformación homogénea que define la rotación y traslación producida por cada articulación. Las matrices $T_{ab}$
+  tienen la forma:
+  \[T_{ab} = \left[\begin{tabular}{cccc}
+      & & & $dx_{ab}$\\
+      & $R_{ab}\in SO(3)$ & & $dy_{ab}$\\
+      & & & $dz_{ab}$\\
+      0 & 0& 0 & 1
+    \end{tabular}\right]\]
+  Donde $R_{ab}$ representa la rotación del sistema $b$ respecto al sistema $a$ y $(dx_{ab}, dy_{ab}, dz_{ab})$ es la traslación del sistema $b$ respecto al sistema $a$.\\
+  La rotación $R_{ab}$ está definida en el URDF por el atributo ``rpy'' de la sub etiqueta \texttt{origin} de la etiqueta \texttt{joint} y por la posición de la articulación. La traslación $(dx_{ab}, dy_{ab}, dz_{ab})$ está definida por el atributo ``xyz''. 
+\end{frame}
+
+\begin{frame}\frametitle{Ejercicio}
+  Abra el archivo ... y modifique las líneas ...
+\end{frame}
+
+\begin{frame}\frametitle{La cinemática inversa}
+  La cinemática inversa consiste en determinar las posiciones que debe tener cada articulación para que el efector final tenga la posición y orientación deseadas.
+  \begin{itemize}
+  \item Mientras la cinemática directa siempre tiene solución, la cinemática inversa, no.
+  \item Se puede resolver por métodos geométricos para obtener una solución cerrada, aunque el análisis puede ser muy complicado.
+  \item Una solución más general se puede obtener mediante un método numérico. 
+  \end{itemize}
+  Suponiendo que se tiene una configuración deseada $p_d \in \mathbb{R}^6$ ($xyz-RPY$), se desea encontrar el conjunto de posiciones articulares $q\in\mathbb{R}^7$ que satisfagan la ecuación
+  \[FK(q) - p_d = 0\]
+  donde la función $FK$ representa la cinemática directa. 
+\end{frame}
+
+\begin{frame}\frametitle{El método Newton-Raphson}
+  El método numérico de Newton-Raphson sirve para encontrar raíces, es decir, para resolver ecuaciones de la forma
+  \[f(x) = 0\]
+  El algoritmo es el siguiente:
+  \begin{algorithm}[H]
+    \DontPrintSemicolon
+    $x \leftarrow x_0$\;
+    \While{$|f(x)| > \epsilon$}
+    {
+       $x \leftarrow x - \frac{f(x)}{f'(x)}$
+    }
+  \end{algorithm}
 \end{frame}

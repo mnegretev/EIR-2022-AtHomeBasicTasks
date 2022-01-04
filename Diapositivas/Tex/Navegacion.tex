@@ -99,3 +99,41 @@
 \end{frame}
 
 
+\begin{frame}\frametitle{Inflado de mapas}
+  Para evitar que se calculen rutas por espacios por donde el robot en realidad no puede pasar debido a sus dimensiones, los obstáculos del mapa se deben \textit{inflar} cuando menos un número de celdas igual al radio del robot.\\
+  \includegraphics[width=0.5\textwidth]{Figures/Inflation.pdf}
+\end{frame}
+
+\begin{frame}[containsverbatim]\frametitle{Ejercicio}
+  Completar el archivo inflation.py con el algoritmo para inflar obstáculos.
+    \lstinputlisting[language=Python]{Codes/AStar.py}
+\end{frame}
+
+\begin{frame}\frametitle{Control de posición}
+  Suponiendo que el robot está en la posición y orientación $(x,y, \theta)$ y que se quiere alcanzar la posición deseada $(x_g, y_g)$, como se muestra en la figura. Las leyes de control
+  \begin{multicols}{2}
+    \includegraphics[width=0.5\textwidth]{Figures/GoalPose.pdf}
+    \[\]
+  \begin{eqnarray*}
+    v &=& v_{max} e^{-e_a^2/\alpha}\\
+    \omega &=& \omega_{max}\left(\frac{2}{1 + e^{-e_a/\beta}} - 1\right)
+  \end{eqnarray*}
+  \end{multicols}
+  con $e_a = \textrm{atan2}(y_g - y, x_g - x) - \theta$, permiten que el robot alcance la posición deseada. Los parámetros $v_{max}$ y $\omega_{max}$ se deben seleccionar de acuerdo con las capacidades del robot. Las constantes $\alpha$ y $\beta$ permiten controlar qué tan rápido cambian la velocidad lineal y angular del robot. 
+\end{frame}
+
+
+\begin{frame}\frametitle{Seguimiento de rutas}
+  El control de posición se puede utilizar para seguir una ruta si se fija como punto meta cada punto de la ruta, hasta alcanzar el último.
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.6\textwidth]{Figures/PathFollowing.pdf}
+  \end{figure}
+\end{frame}
+
+
+\begin{frame}[containsverbatim]\frametitle{Ejercicio}
+  Completar el archivo control.py con las leyes de control $v,\omega$ para que el robot siga una ruta.
+    \lstinputlisting[language=Python]{Codes/AStar.py}
+\end{frame}
+

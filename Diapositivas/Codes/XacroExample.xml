@@ -1,0 +1,21 @@
+<robot name="justina" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:property name="width" value="0.42"/>
+  <xacro:property name="depth" value="0.42"/>
+  <xacro:property name="height" value="0.2"/>
+  <xacro:property name="mass" value="30.0"/>
+
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0.235" rpy="0 0 0"/><material name="blue"/>
+      <geometry> <box size="${width} ${depth} ${height}"/></geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.235" rpy="0 0 0"/>
+      <geometry> <box size="${width} ${depth} ${height}"/></geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0.235" rpy="0 0 0"/><mass value="50.00"/>
+      <xacro:box_inertia m="${mass}" x="${depth}" y="${width}" z="${height}"/>
+    </inertial>
+  </link>
+</robot>
