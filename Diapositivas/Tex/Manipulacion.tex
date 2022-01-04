@@ -111,12 +111,54 @@
   El método numérico de Newton-Raphson sirve para encontrar raíces, es decir, para resolver ecuaciones de la forma
   \[f(x) = 0\]
   El algoritmo es el siguiente:
+  \[\]
+  \begin{multicols}{2}
   \begin{algorithm}[H]
     \DontPrintSemicolon
-    $x \leftarrow x_0$\;
+    $x_i \leftarrow x_0$\;
     \While{$|f(x)| > \epsilon$}
     {
-       $x \leftarrow x - \frac{f(x)}{f'(x)}$
+       $x_{i+1} \leftarrow x_i - \frac{f(x_i)}{f'(x_i)}$
+    }
+  \end{algorithm}
+  \includegraphics[width=0.4\textwidth]{Figures/NewtonRaphson.pdf}
+  \end{multicols}
+\end{frame}
+
+\begin{frame}\frametitle{El Jacobiano}
+  El Jacobiano es una matriz que relaciona la velocidad articular $\dot{q}$ con la velocidad en el espacio cartesiano $[v\;\omega]^T$ (velocidad lineal y angular):
+  \[\dot{p} = \left[\begin{tabular}{c}$v$\\$\omega$\end{tabular}\right] = J \dot{q}
+  \qquad\qquad p = [x,y,z,roll, pitch, yaw] \in \mathbb{R}^6, \quad J\in \mathbb{R}^{6\times 7},\quad q\in \mathbb{R}^7\]
+  \[J = \left[ \begin{tabular}{ccc}
+      $\frac{\partial p_1}{\partial q_1}$ & $\cdots$ & $\frac{\partial p_1}{\partial q_7}$\\
+      $\vdots$ & $\ddots$ & $\vdots$ \\
+      $\frac{\partial p_6}{\partial q_1}$ & $\cdots$ & $\frac{\partial p_6}{\partial q_7}$\\
+    \end{tabular} \right]\]
+  \begin{itemize}
+  \item La matriz $J$ se puede obtener analíticamente, sin embargo, dado el número de grados de libertad, resulta muy complicado
+  \item Se puede obtener aproximando las derivadas parciales con diferencias finitas:
+  \end{itemize}
+  \[J = \left[\frac{FK(q^1_{+}) -  FK(q^1_{-})}{2\Delta q} \qquad \cdots \qquad \frac{FK(q^7_{+}) -  FK(q^7_{-})}{2\Delta q}\right]\]
+  \begin{eqnarray*}
+    q^i_+ &=& [q_1\quad \dots \quad q_i + \Delta q \quad \dots \quad q_7]\\
+    q^i_- &=& [q_1\quad \dots \quad q_i - \Delta q \quad \dots \quad q_7]
+  \end{eqnarray*}
+  con $\Delta q$, un valor lo suficientemente pequeño para una buena aproximación de la derivada. 
+\end{frame}
+
+\begin{frame}\frametitle{Cinemática Inversa por Newton-Raphson}
+  Aplicando Newton-Raphson para resolver la ecuación:
+  \[FK(q) - p_d = 0\]
+  Se tiene:
+  \begin{algorithm}[H]
+    \DontPrintSemicolon
+    $q_i \leftarrow q_0$ //Una estimación inicial que puede ser la posición articular actual\;
+    $p \leftarrow FK(q_i)$ //La posición cartesiana que tendría el gripper con la estimación inicial\;
+    \While{$|p - p_d| > \epsilon$}
+    {
+      $J \leftarrow Jacobiano(q)$     \;
+      $q_{i+1} \leftarrow q_i - J^\dagger (p - p_d)$\;
+      $p \leftarrow FK(q_i)$ 
     }
   \end{algorithm}
 \end{frame}
