@@ -1,5 +1,6 @@
 
 \section{Manipulación}
+
 \begin{frame}\frametitle{Posición y Orientación}
   Un cuerpo rígido en el espacio puede tener una posición $(x,y,z)$ y una orientación. La orientación se puede representar de varias formas:
   \begin{itemize}
@@ -161,4 +162,40 @@
       $p \leftarrow FK(q_i)$ 
     }
   \end{algorithm}
+  Puesto que el Jacobiano $J$ no es una matriz cuadrada, no tiene inversa, por lo que se utiliza la matriz pseudoinversa $J^\dagger$. 
+  \begin{itemize}
+  \item Es importante que las variables angulares siempre estén en el intervalo $(-\pi, \pi]$:
+    \begin{itemize}
+    \item Las posiciones articulares
+    \item Los ángulos roll, pitch, yaw
+    \item Las componentes angulares del error $p - p_d$
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{El control PID}
+  El control Proporcional-Integral-Derivativo es un tipo de control lineal en lazo cerrado que calcula la acción de control mediante una combinación lineal del error, la integral del error y la derivada del error.
+  \begin{itemize}
+  \item Para el manipulador, el ángulo deseado $q_d$ está dado por el resultado de la cinemática inversa. 
+  \item La posición angular $q$ se obtiene de los motores o del simulador.
+  \item La salida del controlador es el torque $\tau$ que se envía a los motores.
+  \end{itemize}
+  En la versión continua:
+  \[\tau(t) = K_p e(t) + K_I \int e(t)dt + K_d \dot{e}(t)\]
+  con $e = q_d - q$
+  En la versión discreta:
+  \[\tau_i = K_p e_i + K_I\sum_{j=0}^i e_j + K_d\frac{e_i - e_{i-1}}{\Delta t}\]
+  con $\Delta t$, el periodo de muestreo. 
+\end{frame}
+
+\begin{frame}\frametitle{Los \textit{stacks} ros\_control y ros\_controllers}
+  Es un conjunto de paquetes que implementa controladores PID y varias interfaces de hardware.
+  \begin{itemize}
+  \item El paquete \texttt{controller\_manager} utilizar un archivo \textit{yaml} para lanzar otros nodos que implementan controladores. 
+  \item El paquete \texttt{joint}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Ejercicio}
+  Abra el archivo \texttt{justina\_controllers.yaml} y modifique las ganancias de las articulaciones. Detenga la simulación y ejecútela de nuevo para ver qué sucede. 
 \end{frame}
