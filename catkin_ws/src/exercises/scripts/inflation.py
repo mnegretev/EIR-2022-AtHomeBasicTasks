@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #
 # ESCUELA DE INVIERNO DE ROBOTICA 2022 - FEDERACION MEXICANA DE ROBOTICA
-# EJERCICIO 3 - INFLADO DE OBSTÁCULOS
+# EJERCICIO 3 - INFLADO DE OBSTACULOS
 #
 
 import rospy
@@ -16,13 +16,18 @@ def get_inflated_map(static_map, inflation_cells):
     inflated = numpy.copy(static_map)
     [height, width] = static_map.shape
     #
-    # TODO:
-    # Write the code necessary to inflate the obstacles in the map a radius
-    # given by 'inflation_cells' (expressed in number of cells)
-    # Map is given in 'static_map' as a bidimensional numpy array.
-    # Consider as occupied cells all cells with an occupation value greater than 50
+    # EJERCICIO:
+    # Descomente el codigo siguiente para implementar el inflado de
+    # obstaculos
+    # 
+    #for i in range(height):
+    #    for j in range(width):
+    #        if static_map[i,j] > 50:
+    #            for k1 in range(-inflation_cells, inflation_cells+1):
+    #                for k2 in range(-inflation_cells, inflation_cells+1):
+    #                    inflated[i+k1, j+k2] = 100
     #
-    
+    # FIN DEL EJERCICIO
     return inflated
 
 
@@ -32,8 +37,8 @@ def callback_inflated_map(req):
     
 def main():
     global cost_map, inflated_map
-    print "PRACTICE 01 - " + NAME
-    rospy.init_node("practice01")
+    print "EXERCISE 03 - OBSTACLE INFLATION"
+    rospy.init_node("obstacle_inflation")
     rospy.wait_for_service('/static_map')
     pub_map  = rospy.Publisher("/inflated_map", OccupancyGrid, queue_size=10)
     grid_map = rospy.ServiceProxy("/static_map", GetMap)().map

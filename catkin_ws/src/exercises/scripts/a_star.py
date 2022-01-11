@@ -15,14 +15,22 @@ from collections import deque
 
 msg_path = Path()
 
-def a_star(start_r, start_c, goal_r, goal_c, grid_map, cost_map):
+def a_star(start_r, start_c, goal_r, goal_c, grid_map):
     open_list   = []
     in_closed_list = numpy.full( grid_map.shape, False)
     in_open_list   = numpy.full( grid_map.shape, False)
     g_values       = numpy.full( grid_map.shape, float("inf"))
     f_values       = numpy.full( grid_map.shape, float("inf"))
     previous       = numpy.full((grid_map.shape[0], grid_map.shape[0], 2), -1)
-    adjacents      = [[1,0],[0,1],[-1,0],[0,-1], [1,1], [-1,1], [-1,-1],[1,-1]]
+    #
+    # EJERCICIO:
+    # Modifique la lista de nodos adyacentes para usar conectividad ocho
+    # en lugar de conectividad 4
+    adjacents      = [[1,0],[0,1],[-1,0],[0,-1]]
+    #adjacents      = [[1,0],[0,1],[-1,0],[0,-1], [1,1], [-1,1], [-1,-1],[1,-1]]
+    #
+    # FIN DEL EJERCICIO
+    #
     heapq.heappush(open_list, (0, [start_r, start_c]))
     in_open_list[start_r, start_c] = True
     g_values[start_r, start_c] = 0
@@ -39,11 +47,12 @@ def a_star(start_r, start_c, goal_r, goal_c, grid_map, cost_map):
 
             #
             # EJERCICIO:
-            # Modifique el cálculo del valor 'g' y la heurística 'h' para utilizar
+            # Modifique el calculo del valor 'g' y la heuristica 'h' para utilizar
             # distancia euclidiana en lugar de distancia de Manhattan.
-            #
-            g = g_values[row, col] + math.sqrt((row-r)**2 + (col-c)**2) + cost_map[r,c]
-            h = math.sqrt((goal_r - r)**2 + (goal_c - c)**2)
+            g = g_values[row, col] + abs(row-r) + abs(col-c)
+            h = abs(goal_r - r) + abs(goal_c - c)
+            # g = g_values[row, col] + math.sqrt((row-r)**2 + (col - c)**2)
+            # h = math.sqrt((goal_r-r)**2 + (goal_c - c)**2)
             #
             # FIN DEL EJERCICIO
             #
@@ -70,7 +79,6 @@ def a_star(start_r, start_c, goal_r, goal_c, grid_map, cost_map):
 def get_maps():
     print("Getting inflated and cost maps...")
     clt_static_map = rospy.ServiceProxy("/static_map"  , GetMap)
-    clt_cost_map   = rospy.ServiceProxy("/cost_map"    , GetMap)
     clt_inflated   = rospy.ServiceProxy("/inflated_map", GetMap)
     try:
         static_map = clt_static_map().map
@@ -79,25 +87,21 @@ def get_maps():
         exit()
     try:
         inflated_map = clt_inflated().map
-        cost_map     = clt_cost_map().map
         print("Using inflated map with " +str(len(inflated_map.data)) + " cells.")
-        print("Using cost map with "     +str(len(cost_map.data))     + " cells.")
     except:
         inflated_map = static_map
-        cost_map     = static_map
         print("Cannot get augmented maps. Using static map instead.")
     inflated_map = numpy.reshape(numpy.asarray(inflated_map.data), (static_map.info.height, static_map.info.width))
-    cost_map     = numpy.reshape(numpy.asarray(cost_map.data)    , (static_map.info.height, static_map.info.width))
-    return [static_map, inflated_map, cost_map]
+    return [static_map, inflated_map]
 
 def callback_a_star(req):
-    [s_map, inflated_map, cost_map] = get_maps()
+    [s_map, inflated_map] = get_maps()
     res = s_map.info.resolution
     [sx, sy] = [req.start.pose.position.x, req.start.pose.position.y]
     [gx, gy] = [req.goal .pose.position.x, req.goal .pose.position.y]
     [zx, zy] = [s_map.info.origin.position.x, s_map.info.origin.position.y]
     print("Calculating path by A* from " + str([sx, sy])+" to "+str([gx, gy]))
-    path = a_star(int((sy-zy)/res), int((sx-zx)/res), int((gy-zy)/res), int((gx-zx)/res), inflated_map, cost_map)
+    path = a_star(int((sy-zy)/res), int((sx-zx)/res), int((gy-zy)/res), int((gx-zx)/res), inflated_map)
     msg_path.poses = []
     for [r,c] in path:
         msg_path.poses.append(PoseStamped(pose=Pose(position=Point(x=(c*res + zx), y=(r*res + zy)))))

@@ -22,7 +22,7 @@
   \includegraphics[width=0.4\textwidth]{Figures/OccupancyGridZoom.png}
 \end{frame}
 
-\begin{frame}[containsverbatim]\frametitle{Ejercicio}
+\begin{frame}[containsverbatim]\frametitle{Ejercicio 1}
   Ejecute el comando:
   \begin{lstlisting}
     roslaunch bring_up path_planning.launch
@@ -92,21 +92,56 @@
   La heurística $h$ sirve para expandir menos nodos y es una función que debe \textit{subestimar} el costo real de llegar de un nodo $n$ al nodo meta $n_g$. La distancia Euclidiana y la distancia de Manhattan son dos funciones también muy usadas como heurísticas. 
 \end{frame}
 
-\begin{frame}[containsverbatim]\frametitle{Ejercicio}
-  Modificar el archivo a\_star.py para cambiar $g$ y $h$ de Manhattan a Euclidiana.
-  \texttt{catkin\_ws/src/config\_files/maps/appartment.pgm}
-    \lstinputlisting[language=Python]{Codes/AStar.py}
+\begin{frame}[containsverbatim]\frametitle{Ejercicio 2}
+  Ejecute el comando:
+  \begin{lstlisting}
+    roslaunch bring_up path_planning.launch
+  \end{lstlisting}
+  En otra terminal, ejecute el comando:
+  \begin{lstlisting}
+    rosrun exercises a_star.py
+  \end{lstlisting}
+  Utilizando la GUI calcule una ruta desde la posición del robot hasta el punto (0,0). En el visualizador \texttt{RViz} se mostrará la ruta calculada.\\
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.35\textwidth]{Figures/Exercise1Gui.png}
+    \includegraphics[width=0.35\textwidth]{Figures/Exercise1Rviz.png}
+  \end{figure}
 \end{frame}
 
+\begin{frame}[containsverbatim]\frametitle{Ejercicio 2}
+  Detenga la ejecución del programa \texttt{a\_star.py}. \\
+    Modifique el archivo \texttt{catkin\_ws/src/exercises/scripts/a\_star.py} para utilizar distancia Euclidiana en lugar de distancia de Manhattan. Modifique las secciones marcadas con el comentario \texttt{\#Ejercicio}. 
+    \lstinputlisting[language=Python,firstnumber=26]{Codes/AStar1.py}
+    \lstinputlisting[language=Python,firstnumber=49]{Codes/AStar2.py}
+    Ejecute nuevamente el comando
+    \begin{lstlisting}
+    rosrun exercises a_star.py
+    \end{lstlisting}
+    Y compare los resultados. 
+\end{frame}
 
 \begin{frame}\frametitle{Inflado de mapas}
   Para evitar que se calculen rutas por espacios por donde el robot en realidad no puede pasar debido a sus dimensiones, los obstáculos del mapa se deben \textit{inflar} cuando menos un número de celdas igual al radio del robot.\\
-  \includegraphics[width=0.5\textwidth]{Figures/Inflation.pdf}
+  \includegraphics[width=0.45\textwidth]{Figures/Inflation.pdf}
+  \includegraphics[width=0.45\textwidth]{Figures/Inflation.png}
 \end{frame}
 
-\begin{frame}[containsverbatim]\frametitle{Ejercicio}
-  Completar el archivo inflation.py con el algoritmo para inflar obstáculos.
-    \lstinputlisting[language=Python]{Codes/AStar.py}
+\begin{frame}[containsverbatim]\frametitle{Ejercicio 3}
+  Modifique el archivo \texttt{catkin\_ws/src/exercises/scripts/inflation.py} para implementar el algoritmo de inflado de obstáculos:
+  \lstinputlisting[language=Python,firstnumber=19]{Codes/Inflation.py}
+  Ejecute el comando:
+  \begin{lstlisting}
+    roslaunch bring_up path_planning.launch
+  \end{lstlisting}
+  En otra terminal, ejecute el comando:
+  \begin{lstlisting}
+    rosrun exercises a_star.py
+  \end{lstlisting}
+  Y en una tercera terminal ejecute el comando
+  \begin{lstlisting}
+    rosrun exercises inflation.py
+  \end{lstlisting}
 \end{frame}
 
 \begin{frame}\frametitle{Control de posición}
@@ -132,8 +167,28 @@
 \end{frame}
 
 
-\begin{frame}[containsverbatim]\frametitle{Ejercicio}
-  Completar el archivo control.py con las leyes de control $v,\omega$ para que el robot siga una ruta.
-    \lstinputlisting[language=Python]{Codes/AStar.py}
+\begin{frame}[containsverbatim]\frametitle{Ejercicio 4}
+  Ejecute el comando:
+  \begin{lstlisting}
+    roslaunch bring_up path_planning.launch
+  \end{lstlisting}
+  En otra terminal, ejecute el comando:
+  \begin{lstlisting}
+    roslaunch bring_up exercises_path_planning.launch
+  \end{lstlisting}
+  Utilizando RViz, envíe el robot a un punto meta:
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{Figures/Exercise4Rviz.png}
+  \end{figure}
 \end{frame}
 
+\begin{frame}[containsverbatim]\frametitle{Ejercicio 4}
+  Detenga la ejecución de los ejercicios. Abra el archivo \texttt{catkin\_ws/src/exercises/scripts/control.py} y modifique las constantes $v_{max}$, $\omega_{max}$, $\alpha$ y $\beta$.
+  \lstinputlisting[language=Python,firstnumber=23]{Codes/Control.py}
+  Vuelva a ejecutar el comando
+  \begin{lstlisting}
+    roslaunch bring_up exercises_path_planning.launch
+  \end{lstlisting}
+  Y compare el comportamiento del robot.
+\end{frame}

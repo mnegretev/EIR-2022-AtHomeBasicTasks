@@ -1,0 +1,5 @@
+<launch>
+  <node name="exercise2" pkg="exercises" type="a_star.py" output="screen"/>
+  <node name="exercise3" pkg="exercises" type="inflation.py" output="screen"/>
+  <node name="exercise4" pkg="exercises" type="control.py" output="screen"/>
+</launch>
