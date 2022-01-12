@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>640</width>
+    <width>656</width>
     <height>466</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>JUSTINA GUI - By Marcosoft</string>
+   <string>Escuela de Invierno de Robótica 2022</string>
   </property>
   <property name="styleSheet">
    <string notr="true">QGroupBox {
@@ -40,7 +40,7 @@ QRadioButton::indicator{
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>631</width>
+      <width>651</width>
       <height>421</height>
      </rect>
     </property>
@@ -233,7 +233,7 @@ QRadioButton::indicator{
        <rect>
         <x>320</x>
         <y>0</y>
-        <width>301</width>
+        <width>321</width>
         <height>291</height>
        </rect>
       </property>
@@ -754,7 +754,7 @@ QRadioButton::indicator{
         <rect>
          <x>10</x>
          <y>250</y>
-         <width>131</width>
+         <width>151</width>
          <height>27</height>
         </rect>
        </property>
@@ -767,20 +767,20 @@ QRadioButton::indicator{
         <rect>
          <x>10</x>
          <y>230</y>
-         <width>271</width>
+         <width>311</width>
          <height>16</height>
         </rect>
        </property>
        <property name="text">
-        <string>Predefined  Pose    OR     XYZ  RPY  E:</string>
+        <string>Left arm cartesian:           Right arm cartesian:</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="raTxtPredefined">
        <property name="geometry">
         <rect>
-         <x>160</x>
+         <x>170</x>
          <y>250</y>
-         <width>131</width>
+         <width>151</width>
          <height>27</height>
         </rect>
        </property>
@@ -893,7 +893,7 @@ QRadioButton::indicator{
        <rect>
         <x>320</x>
         <y>290</y>
-        <width>301</width>
+        <width>321</width>
         <height>81</height>
        </rect>
       </property>
@@ -1009,11 +1009,11 @@ QRadioButton::indicator{
         <x>10</x>
         <y>240</y>
         <width>301</width>
-        <height>101</height>
+        <height>61</height>
        </rect>
       </property>
       <property name="title">
-       <string>Speech synthesis and recognition</string>
+       <string>Speech synthesis</string>
       </property>
       <widget class="QLineEdit" name="spgTxtSay">
        <property name="geometry">
@@ -1239,6 +1239,42 @@ QRadioButton::indicator{
          <y>20</y>
          <width>301</width>
          <height>71</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="geometry">
+       <rect>
+        <x>9</x>
+        <y>300</y>
+        <width>301</width>
+        <height>80</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Vision</string>
+      </property>
+      <widget class="QLabel" name="spgLabel_2">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>91</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Find Object.</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="vsTxtFindObject">
+       <property name="geometry">
+        <rect>
+         <x>100</x>
+         <y>20</y>
+         <width>181</width>
+         <height>23</height>
         </rect>
        </property>
       </widget>

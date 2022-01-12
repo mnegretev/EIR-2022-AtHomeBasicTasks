@@ -60,6 +60,8 @@ public slots:
     void raSbGripperValueChanged(double d);
     void hdSbHeadValueChanged(double d);
 
+    void vsTxtFindObjectReturnPressed();
+
 private:
     Ui::MainWindow *ui;
 };

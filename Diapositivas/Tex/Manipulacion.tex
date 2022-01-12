@@ -67,7 +67,7 @@
   \lstinputlisting[language=XML]{Codes/XacroExample.xml}
 \end{frame}
 
-\begin{frame}[containsverbatim]\frametitle{Ejercicio}
+\begin{frame}[containsverbatim]\frametitle{Ejercicio 6}
   Abra el archivo \texttt{catkin\_ws/src/hardware/justina\_description/urdf/justina\_base.xacro} y vaya a la línea 228:
   \lstinputlisting[language=XML,firstnumber=227]{Codes/JustinaXacro.xml}
   Modifique el atributo \texttt{xyz} y aumente 1 m en la coordenada en z. Después ejecute el comando:
@@ -90,10 +90,6 @@
     \end{tabular}\right]\]
   Donde $R_{ab}$ representa la rotación del sistema $b$ respecto al sistema $a$ y $(dx_{ab}, dy_{ab}, dz_{ab})$ es la traslación del sistema $b$ respecto al sistema $a$.\\
   La rotación $R_{ab}$ está definida en el URDF por el atributo ``rpy'' de la sub etiqueta \texttt{origin} de la etiqueta \texttt{joint} y por la posición de la articulación. La traslación $(dx_{ab}, dy_{ab}, dz_{ab})$ está definida por el atributo ``xyz''. 
-\end{frame}
-
-\begin{frame}\frametitle{Ejercicio}
-  Abra el archivo ... y modifique las líneas ...
 \end{frame}
 
 \begin{frame}\frametitle{La cinemática inversa}
@@ -173,6 +169,23 @@
   \end{itemize}
 \end{frame}
 
+\begin{frame}[containsverbatim]\frametitle{Ejercicio 7}
+  Abra el archivo \texttt{catkin\_ws/src/exercises/scripts/inverse\_kinematics.py} e inspecciones los segmentos de código marcados con el comentario \texttt{\#Ejercicio} para comparar con los algoritmos para el cálculo de las cinemáticas directa e inversa y del Jacobiano.\\
+  En una terminal ejecute el comando:
+  \begin{lstlisting}
+    roslaunch bring_up manipulation.launch
+  \end{lstlisting}
+  Y en otra ejecute el comando:
+  \begin{lstlisting}
+    rosrun exercises inverse_kinematics.py
+  \end{lstlisting}
+  Utilizando la GUI, calcule la cinemática inversa para que el brazo izquierdo alcance la posición $(x,y,z,roll, pitch, yaw) = (0.2, 0.1, -0.3, 3.0, -1.57, -3.0)$ y el brazo derecho, la posición $(x,y,z,roll, pitch, yaw) = (0.2, -0.1, -0.3, 3.0, -1.57, -3.0)$:
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.4\textwidth]{Figures/Exercise7Gui.png}
+  \end{figure}
+\end{frame}
+
 \begin{frame}\frametitle{El control PID}
   El control Proporcional-Integral-Derivativo es un tipo de control lineal en lazo cerrado que calcula la acción de control mediante una combinación lineal del error, la integral del error y la derivada del error.
   \begin{itemize}
@@ -192,7 +205,7 @@
   Es un conjunto de paquetes que implementa controladores PID y varias interfaces de hardware.
   \begin{itemize}
   \item El paquete \texttt{controller\_manager} utilizar un archivo \textit{yaml} para lanzar otros nodos que implementan controladores. 
-  \item El paquete \texttt{joint}
+  \item El paquete \texttt{joint_}
   \end{itemize}
 \end{frame}
 

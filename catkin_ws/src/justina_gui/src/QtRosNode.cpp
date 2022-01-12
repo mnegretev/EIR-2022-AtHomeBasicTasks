@@ -46,7 +46,7 @@ void QtRosNode::run()
     cltSmoothPath          = n->serviceClient<custom_msgs::SmoothPath>("/path_planning/smooth_path");
     cltLaInverseKinematics = n->serviceClient<custom_msgs::InverseKinematics>("/manipulation/la_inverse_kinematics");
     cltRaInverseKinematics = n->serviceClient<custom_msgs::InverseKinematics>("/manipulation/ra_inverse_kinematics");
-    
+    cltFindObject          = n->serviceClient<custom_msgs::FindObject>("/vision/find_object");
     int pub_zero_counter = 5;
     while(ros::ok() && !this->gui_closed)
     {
@@ -274,4 +274,15 @@ bool QtRosNode::call_ra_inverse_kinematics(std::vector<float>& cartesian, std::v
     articular.push_back(srv.response.q6);
     articular.push_back(srv.response.q7);
     return true;
+}
+
+
+bool QtRosNode::call_find_object(std::string obj_name)
+{
+    custom_msgs::FindObject srv;
+    boost::shared_ptr<sensor_msgs::PointCloud2 const> ptr;
+    ptr = ros::topic::waitForMessage<sensor_msgs::PointCloud2>("/kinect/points", ros::Duration(1.0));
+    srv.request.cloud = *ptr;
+    srv.request.name = obj_name;
+    cltFindObject.call(srv);
 }

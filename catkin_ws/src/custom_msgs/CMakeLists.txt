@@ -63,6 +63,7 @@ add_service_files(
   InverseKinematics.srv
   ForwardKinematics.srv
   SmoothPath.srv
+  FindObject.srv
 )
 
 ## Generate actions in the 'action' folder

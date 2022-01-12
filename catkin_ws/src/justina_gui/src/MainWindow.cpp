@@ -58,6 +58,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->raTxtPredefined, SIGNAL(returnPressed()), this, SLOT(raTxtPredefinedReturnPressed()));
     QObject::connect(ui->hdTxtPan, SIGNAL(valueChanged(double)), this, SLOT(hdSbHeadValueChanged(double)));
     QObject::connect(ui->hdTxtTilt, SIGNAL(valueChanged(double)), this, SLOT(hdSbHeadValueChanged(double)));
+
+    QObject::connect(ui->vsTxtFindObject, SIGNAL(returnPressed()), this, SLOT(vsTxtFindObjectReturnPressed()));
 }
 
 MainWindow::~MainWindow()
@@ -398,4 +400,10 @@ void MainWindow::raSbGripperValueChanged(double d)
 void MainWindow::hdSbHeadValueChanged(double d)
 {
     qtRosNode->publish_head_angles(ui->hdTxtPan->value(), ui->hdTxtTilt->value());
+}
+
+void MainWindow::vsTxtFindObjectReturnPressed()
+{
+    std::string obj = this->ui->vsTxtFindObject->text().toStdString();
+    qtRosNode->call_find_object(obj);
 }

@@ -12,6 +12,8 @@
 #include "tf/transform_listener.h"
 #include "custom_msgs/InverseKinematics.h"
 #include "custom_msgs/SmoothPath.h"
+#include "custom_msgs/FindObject.h"
+#include "sensor_msgs/PointCloud2.h"
 
 class QtRosNode : public QThread
 {
@@ -48,6 +50,7 @@ public:
     ros::ServiceClient cltRaInverseKinematics;
     ros::ServiceClient cltAStar;
     ros::ServiceClient cltSmoothPath;
+    ros::ServiceClient cltFindObject;
     tf::TransformListener tf_listener;
     
     geometry_msgs::Twist cmd_vel;
@@ -77,6 +80,8 @@ public:
     void publish_head_angles(float pan, float tilt);
     bool call_la_inverse_kinematics(std::vector<float>& cartesian, std::vector<float>& articular);
     bool call_ra_inverse_kinematics(std::vector<float>& cartesian, std::vector<float>& articular);
+
+    bool call_find_object(std::string obj_name);
     
 signals:
     void updateGraphics();
