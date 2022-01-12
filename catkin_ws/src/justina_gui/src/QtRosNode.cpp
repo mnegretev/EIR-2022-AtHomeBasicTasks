@@ -18,7 +18,7 @@ QtRosNode::~QtRosNode()
 
 void QtRosNode::run()
 {    
-    ros::Rate loop(30);
+    ros::Rate loop(10);
     pubCmdVel    = n->advertise<geometry_msgs::Twist>("/cmd_vel", 10);
     pubGoToXYA   = n->advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal", 10);
     pubTorso     = n->advertise<std_msgs::Float64>("/torso_controller/command", 10);
@@ -42,6 +42,8 @@ void QtRosNode::run()
     pubRaAngleGr = n->advertise<std_msgs::Float64>("/ra_grip_right_controller/command", 10);
     pubHdPan     = n->advertise<std_msgs::Float64>("/head_pan_controller/command",  10, true);
     pubHdTilt    = n->advertise<std_msgs::Float64>("/head_tilt_controller/command", 10, true);
+    pubSay       = n->advertise<sound_play::SoundRequest>("/robotsound", 10);
+    subRecognizedSpeech    = n->subscribe("/recognized", 1, &QtRosNode::callback_recognized_speech, this);
     cltAStar               = n->serviceClient<nav_msgs::GetPlan>("/path_planning/a_star_search");
     cltSmoothPath          = n->serviceClient<custom_msgs::SmoothPath>("/path_planning/smooth_path");
     cltLaInverseKinematics = n->serviceClient<custom_msgs::InverseKinematics>("/manipulation/la_inverse_kinematics");
@@ -285,4 +287,20 @@ bool QtRosNode::call_find_object(std::string obj_name)
     srv.request.cloud = *ptr;
     srv.request.name = obj_name;
     cltFindObject.call(srv);
+}
+
+void QtRosNode::publish_text_to_say(std::string txt)
+{
+    sound_play::SoundRequest msg;
+    msg.sound   = -3;
+    msg.command = 1;
+    msg.volume  = 1.0;
+    msg.arg2    = "voice_kal_diphone";
+    msg.arg     = txt;
+    pubSay.publish(msg);
+}
+
+void QtRosNode::callback_recognized_speech(const std_msgs::String::ConstPtr& msg)
+{
+    str_recognized_speech = msg->data;
 }

@@ -201,14 +201,32 @@
   con $\Delta t$, el periodo de muestreo. 
 \end{frame}
 
-\begin{frame}\frametitle{Los \textit{stacks} ros\_control y ros\_controllers}
-  Es un conjunto de paquetes que implementa controladores PID y varias interfaces de hardware.
+\begin{frame}\frametitle{El control PID}
+  Aunque la interacción de las tres señales (error, integral del error y derivada del error) es compleja y depende mucho del sistema, de manera intuitiva se pueden indicar las siguientes funciones de cada componente:
   \begin{itemize}
-  \item El paquete \texttt{controller\_manager} utilizar un archivo \textit{yaml} para lanzar otros nodos que implementan controladores. 
-  \item El paquete \texttt{joint_}
+  \item \textbf{Proporcional:} Aumenta o disminuye el tiempo de asentamiento.
+  \item \textbf{Integral:} Reduce el error en estado estable, aunque puede producir inestabiliddad.
+  \item \textbf{Derivativa:} Funciona como amortiguamiento y ayuda a disminuir el sobrepaso. 
   \end{itemize}
 \end{frame}
 
-\begin{frame}\frametitle{Ejercicio}
-  Abra el archivo \texttt{justina\_controllers.yaml} y modifique las ganancias de las articulaciones. Detenga la simulación y ejecútela de nuevo para ver qué sucede. 
+\begin{frame}\frametitle{Los \textit{stacks} ros\_control y ros\_controllers}
+  Son un conjunto de paquetes que implementan controladores PID y varias interfaces de hardware.
+  \begin{itemize}
+  \item El stack \texttt{ros\_control} implementa varias interfaces de hardware. En este curso, la interfaz usada es la que interactúa con la simulación de Gazebo. De este stack, el paquete \texttt{controller\_manager} es importante porque utiliza un archivo \textit{yaml} para lanzar otros nodos que implementan controladores PID. 
+  \item El stack \texttt{ros\_controllers} implementa varios algoritmos de control para diferentes tipos de actuadores. 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[containsverbatim]\frametitle{Ejercicio 8}
+  Ejecute el comando:
+  \begin{lstlisting}
+    roslaunch bring_up manipulation.launch
+  \end{lstlisting}
+  Utilizando la GUI, mueva las articulaciones de los manipuladores a alguna posición diferente de cero y observe el comportamiento.
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.3\textwidth]{Figures/Exercise8Gui.png}
+  \end{figure}
+  Abra el archivo \texttt{src/config\_files/ros\_control/justina\_controllers.yaml} y modifique las ganancias de los diferentes controladores. Detenga la simulación y ejecútela de nuevo. Compare el comportamiento. 
 \end{frame}

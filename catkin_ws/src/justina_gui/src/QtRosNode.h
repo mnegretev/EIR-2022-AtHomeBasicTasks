@@ -4,6 +4,7 @@
 #include <QThread>
 #include "ros/ros.h"
 #include "std_msgs/Float64.h"
+#include "std_msgs/String.h"
 #include "std_msgs/Float32MultiArray.h"
 #include "geometry_msgs/Twist.h"
 #include "geometry_msgs/PoseStamped.h"
@@ -14,6 +15,7 @@
 #include "custom_msgs/SmoothPath.h"
 #include "custom_msgs/FindObject.h"
 #include "sensor_msgs/PointCloud2.h"
+#include "sound_play/SoundRequest.h"
 
 class QtRosNode : public QThread
 {
@@ -46,6 +48,8 @@ public:
     ros::Publisher pubRaAngleGr;
     ros::Publisher pubHdPan;
     ros::Publisher pubHdTilt;
+    ros::Publisher pubSay;
+    ros::Subscriber subRecognizedSpeech;
     ros::ServiceClient cltLaInverseKinematics;
     ros::ServiceClient cltRaInverseKinematics;
     ros::ServiceClient cltAStar;
@@ -56,6 +60,7 @@ public:
     geometry_msgs::Twist cmd_vel;
     bool publishing_cmd_vel;
     bool gui_closed;
+    std::string str_recognized_speech;
     
     void run();
     void setNodeHandle(ros::NodeHandle* nh);
@@ -82,6 +87,9 @@ public:
     bool call_ra_inverse_kinematics(std::vector<float>& cartesian, std::vector<float>& articular);
 
     bool call_find_object(std::string obj_name);
+
+    void publish_text_to_say(std::string txt);
+    void callback_recognized_speech(const std_msgs::String::ConstPtr& msg);
     
 signals:
     void updateGraphics();

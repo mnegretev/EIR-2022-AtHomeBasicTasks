@@ -60,6 +60,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->hdTxtTilt, SIGNAL(valueChanged(double)), this, SLOT(hdSbHeadValueChanged(double)));
 
     QObject::connect(ui->vsTxtFindObject, SIGNAL(returnPressed()), this, SLOT(vsTxtFindObjectReturnPressed()));
+
+    QObject::connect(ui->spgTxtSay, SIGNAL(returnPressed()), this, SLOT(spgTxtSayReturnPressed()));
 }
 
 MainWindow::~MainWindow()
@@ -102,6 +104,8 @@ void MainWindow::updateGraphicsReceived()
 {
     //pmCamera.loadFromData(qtRosNode->imgCompressed.data(), qtRosNode->imgCompressed.size(), "JPG");
     //giCamera->setPixmap(pmCamera);
+    boost::algorithm::to_lower(qtRosNode->str_recognized_speech);
+    this->ui->sprLblRecognized->setText(qtRosNode->str_recognized_speech.c_str());
 }
 
 void MainWindow::btnFwdPressed()
@@ -406,4 +410,10 @@ void MainWindow::vsTxtFindObjectReturnPressed()
 {
     std::string obj = this->ui->vsTxtFindObject->text().toStdString();
     qtRosNode->call_find_object(obj);
+}
+
+void MainWindow::spgTxtSayReturnPressed()
+{
+    std::string txt = this->ui->spgTxtSay->text().toStdString();
+    qtRosNode->publish_text_to_say(txt);
 }

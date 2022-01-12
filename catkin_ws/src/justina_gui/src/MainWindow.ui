@@ -1009,11 +1009,11 @@ QRadioButton::indicator{
         <x>10</x>
         <y>240</y>
         <width>301</width>
-        <height>61</height>
+        <height>81</height>
        </rect>
       </property>
       <property name="title">
-       <string>Speech synthesis</string>
+       <string>Speech synthesis and recognition</string>
       </property>
       <widget class="QLineEdit" name="spgTxtSay">
        <property name="geometry">
@@ -1242,14 +1242,40 @@ QRadioButton::indicator{
         </rect>
        </property>
       </widget>
+      <widget class="QLabel" name="spgLabel_3">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>40</y>
+         <width>91</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Recognized:</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="sprLblRecognized">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>60</y>
+         <width>281</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
      </widget>
      <widget class="QGroupBox" name="groupBox">
       <property name="geometry">
        <rect>
         <x>9</x>
-        <y>300</y>
+        <y>329</y>
         <width>301</width>
-        <height>80</height>
+        <height>51</height>
        </rect>
       </property>
       <property name="title">

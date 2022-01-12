@@ -1,0 +1,34 @@
+\section{Reconocimiento de voz}
+\begin{frame}\frametitle{Reconocimiento de voz con Pocketsphinx}
+  Pocketsphinx es un \textit{toolkit} open source desarrollado por la Universidad de Carnegie Mellon (\url{https://cmusphinx.github.io/}).
+  \begin{itemize}
+  \item Aunque el toolbox original no está hecho específicamente para ROS, ya existen varios repositorios con nodos ya implementados que integran ROS y Pocketsphinx:
+    \begin{itemize}
+    \item \url{https://github.com/mikeferguson/pocketsphinx}
+    \item \url{https://github.com/Pankaj-Baranwal/pocketsphinx}
+    \end{itemize}
+  \item El usuario debe estar agregado al grupo \textit{audio} para el correcto funcionamiento: \texttt{sudo usermod -a -G audio <user\_name>}
+  \end{itemize}
+  \begin{itemize}
+  \item Se puede hacer reconocimiento usando una lista de palabras, un modelo de lenguaje o una gramática.
+  \item Se utilizarán gramáticas y sus correspondientes diccionarios.
+  \item Para construir diccionarios, visitar \url{https://cmusphinx.github.io/wiki/tutorialdict/}
+  \item Para construir gramáticas, visitar \url{https://www.w3.org/TR/2000/NOTE-jsgf-20000605/}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Ejercicio 10}
+  \begin{enumerate}
+  \item Verifique el volumne del micrófono
+  \item Inspeccione el archivo \texttt{catkin\_ws/src/pocketsphinx/vocab/gpsr.gram} para ver las frases que se pueden reconocer de acuerdo con la gramática.
+  \item Ejecute el comando \texttt{roslaunch bring\_up speech\_recognition.launch}
+  \item En otra terminal, ejecute el comanto \texttt{rostopic echo /recognized}
+  \item Pruebe el reconocimiento de voz con alguna de las siguientes frases:
+    \begin{enumerate}
+    \item \texttt{Robot, take the pringles to the table}
+    \item \texttt{Robot, take the drink to the table}
+    \item \texttt{Robot, take the pringles to the kitchen}
+    \item \texttt{Robot, take the drink to the kitchen}
+    \end{enumerate}
+  \end{enumerate}
+\end{frame}

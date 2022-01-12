@@ -1,0 +1,38 @@
+\section{Síntesis de Voz}
+
+\begin{frame}\frametitle{Síntesis de voz con SoundPlay}
+  \begin{itemize}
+  \item Es un paquete que permite reproducir archivos \texttt{.wav} o \texttt{.ogg}, sonidos predeterminados y síntesis de voz.
+  \item La síntesis de voz se hace utilizando Festival (\url{http://www.cstr.ed.ac.uk/projects/festival/}).
+  \item Para sintetizar voz, basta con correr el nodo \texttt{soundplay\_node} y publicar un mensaje de tipo \texttt{sound\_play/SoundRequest} con lo siguiente:
+    \begin{itemize}
+    \item msg\_speech.sound   = -3                 
+    \item msg\_speech.command = 1                  
+    \item msg\_speech.volume  = 1.0                
+    \item msg\_speech.arg2    = ``voz a utilizar''
+    \item msg\_speech.arg = ``texto a sintetizar''
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[containsverbatim]\frametitle{Ejercicio 9}
+  Ejecute el comando:
+  \begin{lstlisting}
+    roslaunch bring_up speech_synthesis.launch
+  \end{lstlisting}
+  En otra terminal, ejecute el comando:
+  \begin{lstlisting}
+    rosrun exercises speech_synthesis.py "my first synthetized voice"
+  \end{lstlisting}
+  Para instalar más voces:
+  \begin{itemize}
+  \item Ejecute el comando \texttt{sudo apt-get install festvox-<voz deseada>}
+  \item Para ver qué voces se tienen instaladas: \texttt{ls /usr/share/festival/voices/english/}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[containsverbatim]\frametitle{Ejercicio 9}
+  Modifique el archivo \texttt{catkin\_ws/src/exercises/scripts/speech\_synthesis.py} y cambie la voz a utilizar en el mensaje SoundRequest.
+  \lstinputlisting[language=Python,firstnumber=17]{Codes/SpeechSynthesis.py}
+  El nombre de la voz se compone de \texttt{voice\_} más el nombre que aparece en la carpeta \texttt{/usr/share/festival/voices/english/}. 
+\end{frame}

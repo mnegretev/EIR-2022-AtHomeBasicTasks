@@ -62,6 +62,8 @@ public slots:
 
     void vsTxtFindObjectReturnPressed();
 
+    void spgTxtSayReturnPressed();
+
 private:
     Ui::MainWindow *ui;
 };
