@@ -1,5 +1,5 @@
 # Tareas Básicas en Robots de Servicio Doméstico
-###Escuela de Invierno de Robótica, 2022.
+Escuela de Invierno de Robótica, 2022.
 
 
 ## Requerimientos
@@ -26,15 +26,15 @@ Para probar que todo se instaló y compiló correctamente:
 
 Si todo se instaló y compiló correctamente, se debería ver un RViz como el siguiente:
 
-<img src="https://github.com/mnegretev/EIR-2022-AtHomeBasicTasks/blob/master/Media/rviz.png" alt="RViz" width="639"/>
+<img src="https://github.com/mnegretev/EIR-2022-AtHomeBasicTasks/blob/main/Media/rviz.png" alt="RViz" width="639"/>
 
 Un Gazebo como el siguiente:
 
-<img src="https://github.com/mnegretev/EIR-2022-AtHomeBasicTasks/blob/master/Media/gazebo.png" alt="Gazebo" width="631"/>
+<img src="https://github.com/mnegretev/EIR-2022-AtHomeBasicTasks/blob/main/Media/gazebo.png" alt="Gazebo" width="631"/>
 
 Y una GUI como la siguiente:
 
-<img src="https://github.com/mnegretev/EIR-2022-AtHomeBasicTasks/blob/master/Media/gui.png" alt="GUI" width="328"/>
+<img src="https://github.com/mnegretev/EIR-2022-AtHomeBasicTasks/blob/main/Media/gui.png" alt="GUI" width="328"/>
 
 ## Máquina Virtual
 
