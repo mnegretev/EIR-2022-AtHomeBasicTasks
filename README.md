@@ -38,9 +38,9 @@ Y una GUI como la siguiente:
 
 ## Máquina Virtual
 
-Se puede descargar una máquina virtual con todo lo necesario ya instalado de <br>
-[Esta dirección](https://drive.google.com/drive/folders/1hhylxy_V94zMYp2UaCKhEbK1hR3pjPlN?usp=sharing) <br>
+Se puede descargar una máquina virtual para [VirtualBox](https://www.virtualbox.org/wiki/Downloads) con todo lo necesario ya instalado de [esta dirección.](https://drive.google.com/drive/folders/1hhylxy_V94zMYp2UaCKhEbK1hR3pjPlN?usp=sharing) <br>
 En esa misma carpeta hay un video con instrucciones para usar la máquina virtual. <br>
+Se recomienda configurar la máquina virtual con 4 CPUs y 4GB de RAM.
 Usuario: Neo <br>
 Contraseña: fidelio
 
