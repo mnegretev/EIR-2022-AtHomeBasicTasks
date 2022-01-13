@@ -26,3 +26,23 @@
   Las máquinas de estados se pueden utiizar para ejecutar tareas ``sencillas'' en un robot de servicio doméstico. 
 \end{frame}
 
+\begin{frame}\frametitle{FSM para manipular objetos}
+  En cada estado podemos enviar comandos de movimiento y utilizar resultados de percepción para definir el siguiente estado:
+  \begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{Figures/FSM.pdf}
+  \end{figure}
+\end{frame}
+
+\begin{frame}[containsverbatim]\frametitle{Ejercicio Final}
+  Abra el archivo \texttt{catkin\_ws/src/exercises/scripts/et\_facta\_est\_lux.py} y agregue comandos de voz en los estados relevantes.
+  \lstinputlisting[language=Python,firstnumber=155]{Codes/FSM.py}
+  En una terminal, ejecute el comando:
+  \begin{lstlisting}
+    roslaunch bring_up fiat_lux.launch
+  \end{lstlisting}
+  Y en otra terminal, corra el ejercicio final:
+  \begin{lstlisting}
+    rosrun exercises et_facta_est_lux.py
+  \end{lstlisting}
+\end{frame}
