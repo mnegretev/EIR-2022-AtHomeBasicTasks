@@ -151,6 +151,12 @@ def main():
     current_state = "SM_INIT"
     requested_object   = ""
     requested_location = [0,0]
+
+    #
+    # EJERCICIO FINAL
+    # Agregue funciones 'say' en los estados de modo que el robot
+    # indique por voz la parte de la tarea que se esta ejecutando
+    #
     
     while not rospy.is_shutdown():
         if current_state == "SM_INIT":
