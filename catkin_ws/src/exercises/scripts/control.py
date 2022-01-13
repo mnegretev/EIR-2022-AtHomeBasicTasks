@@ -7,12 +7,14 @@
 import rospy
 import tf
 import math
+from std_msgs.msg import Bool
 from nav_msgs.msg import Path
 from nav_msgs.srv import GetPlan, GetPlanRequest
 from custom_msgs.srv import SmoothPath, SmoothPathRequest
 from geometry_msgs.msg import Twist, PoseStamped, Pose, Point
 
 pub_cmd_vel = None
+pub_goal_reached = None
 loop        = None
 listener    = None
 
@@ -26,7 +28,7 @@ def calculate_control(robot_x, robot_y, robot_a, goal_x, goal_y):
     #
     v_max = 0.4
     w_max = 0.5
-    alpha = 1.0
+    alpha = 0.5
     beta  = 0.1
     [error_x, error_y] = [goal_x - robot_x, goal_y - robot_y]
     error_a = (math.atan2(error_y, error_x) - robot_a + math.pi)%(2*math.pi) - math.pi    
@@ -52,6 +54,7 @@ def follow_path(path):
         [local_xg,  local_yg ] = path[current_point]
         global_error = math.sqrt((global_xg-robot_x)**2 + (global_yg-robot_y)**2)
     pub_cmd_vel.publish(Twist())
+    pub_goal_reached.publish(True)
     return
     
 def callback_global_goal(msg):
@@ -75,11 +78,12 @@ def get_robot_pose(listener):
     return [0,0,0]
 
 def main():
-    global pub_cmd_vel, loop, listener
+    global pub_cmd_vel, pub_goal_reached, loop, listener
     print "EJERCICIO 4 - CONTROL PARA SEGUIMIENTO DE RUTAS"
     rospy.init_node("exercise4")
     rospy.Subscriber('/move_base_simple/goal', PoseStamped, callback_global_goal)
     pub_cmd_vel = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
+    pub_goal_reached = rospy.Publisher('/navigation/goal_reached', Bool, queue_size=10)
     listener = tf.TransformListener()
     loop = rospy.Rate(10)
     print("Waiting for service for path planning...")
